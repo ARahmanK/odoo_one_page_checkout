@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="locked_padlock" model="ir.attachment">
+        <field name="name">Locked Padlock</field>
+        <field name="type">url</field>
+        <field name="url">/checkout/static/src/img/locked-padlock.png</field>
+        <field name="public" eval="True" />
+    </record>
+    <record id="truck" model="ir.attachment">
+        <field name="name">Truck</field>
+        <field name="type">url</field>
+        <field name="url">/checkout/static/src/img/truckgray.png</field>
+        <field name="public" eval="True" />
+    </record>
+    <record id="giftbox" model="ir.attachment">
+        <field name="name">Gift Box</field>
+        <field name="type">url</field>
+        <field name="url">/checkout/static/src/img/giftbox.png</field>
+        <field name="public" eval="True" />
+    </record>
+</odoo>

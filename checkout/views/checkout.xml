@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="one_page" name="One page">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container oe_website_sale js_checkout">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-5 align-self-center">
+                            <a href="/shop" class="btn btn-transparent btn-xwide mb16"><i
+                                    class="fa fa-long-arrow-left"
+                                /> CONTINUE SHOPPING</a>
+                        </div>
+                        <div
+                            class="offset-lg-6 col-md-3 offset-md-4 text-center mt16 checkout-header-tiles d-none d-md-block"
+                        >
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <img src="/web/image/checkout.locked_padlock" alt="Tienda checkout" />
+                                    <p class="mt4">Pay easily and secure</p>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <img src="/web/image/checkout.truck" alt="Tienda checkout" />
+                                    <p class="mt4">Express delivery</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="row mb0 mt0" />
+                    <data id="website_partner" t-att-data-website-partner="website.partner_id.id" />
+                    <data id="order_partner" t-att-data-order-partner="website_sale_order.partner_id.id" />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2 class="mt8 mb16">Express Checkout</h2>
+                        </div>
+                    </div>
+                    <div class="row express-checkout-section">
+                        <div class="col-lg-3 col-12 address-column">
+                            <h4 class="text-primary section-title">
+                                <i class="fa fa-circle fa-2x" />
+                                <span class="text-white section-id">1</span>
+                                <span class="section-name">Billing Address</span>
+                            </h4>
+                            <div class="js_billing_form" t-if="incomplete_data" />
+                            <div t-att-style="'display: None;' if not incomplete_data else ''">
+                                <t t-call="checkout.billing_form" />
+                            </div>
+                            <t t-if="not incomplete_data">
+                                <t t-set="single_partner" t-value="website_sale_order.partner_id" />
+                                <t t-call="checkout.partner_card" />
+                            </t>
+                            <div class="checkbox">
+                                <label>
+                                    <input
+                                        id="send_same_address"
+                                        type="checkbox"
+                                        t-att-checked="not website_sale_order.partner_id.child_ids"
+                                    > Send to same address</input>
+                                </label>
+                            </div>
+
+                            <div
+                                class="row all_shippings"
+                                t-att-style="'display: none;' if not website_sale_order.partner_id.child_ids else ''"
+                            >
+                                <div class="col-sm-12">
+                                    <h4 class="text-primary section-title mt16 mb16 ml16">
+                                        <span class="section-name">Shipping Addresses</span>
+                                    </h4>
+                                    <t t-call="checkout.shipping_cards" />
+                                </div>
+                            </div>
+                            <div id="shipping_address" style="display: none;" class="">
+                                <h4 class="text-primary section-title">
+                                    <span class="section-name">Add Shipping Address</span>
+                                </h4>
+                                <t t-call="checkout.add_shipping_address" />
+                            </div>
+                        </div>
+                        <div class="col-lg-1 d-none d-lg-block separator-vertical">
+                            <div />
+                        </div>
+                        <div class="col-lg-3 col-12">
+                            <t t-if="extra_info">
+                                <h4 class="text-primary section-title">
+                                    <i class="fa fa-circle fa-2x" />
+                                    <span class="text-white section-id">2</span>
+                                    <span class="section-name">Extra info</span>
+                                </h4>
+                                <t t-call="checkout.s_extra_info" />
+                            </t>
+                            <t t-call="checkout.carriers" />
+                            <div id="payment_method" class="js_payment mt24 mb24">
+                                <t t-call="checkout.payment_method" />
+                            </div>
+                        </div>
+                        <div class="col-lg-1 d-none d-lg-block separator-vertical">
+                            <div />
+                        </div>
+                        <div class="col-lg-4 col-12 mb32">
+                            <t t-call="checkout.confirm_order" />
+                            <t t-call="checkout.payment_method_button" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="add_shipping_address" name="Add Shipping Address">
+        <div class="panel panel-default panel-add">
+            <div class="panel-body">
+                <t t-call="checkout.shipping_address" />
+            </div>
+            <div class="panel-footer text-center">
+                <a class="btn btn-transparent js_add_address_cancel">Cancel</a>
+                <a class="btn btn-primary js_add_address text-white">Add</a>
+            </div>
+        </div>
+    </template>
+    <template id="shipping_cards">
+        <div class="mt8 shipping_cards">
+            <t
+                t-set="shippings"
+                t-value="env['res.partner'].sudo().search([
+                ('id', 'child_of', website_sale_order.partner_id.commercial_partner_id.ids),
+                '|', ('type', '=', 'delivery'), ('id', '=', website_sale_order.partner_id.commercial_partner_id.id)], order='id asc')"
+            />
+            <t t-if="len(shippings) &gt; 1">
+                <t t-foreach="shippings" t-as="ship">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 one_kanban mb16">
+                        <t t-call="website_sale.address_kanban">
+                            <t t-set='contact' t-value="ship" />
+                            <t t-set='selected' t-value="website_sale_order.partner_shipping_id==ship" />
+                            <t
+                                t-set="allow_edit"
+                                t-value="not website_sale_order.partner_id or (ship.id in website_sale_order.partner_id.child_ids.ids)"
+                            />
+                        </t>
+                    </div>
+                </t>
+            </t>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 one_kanban">
+                <button class='btn btn-primary a-submit mb24 mt8 add-address pull-right'>
+                    <i class="fa fa-plus text-white mr4" /> Add an address
+                </button>
+            </div>
+        </div>
+    </template>
+    <template id="partner_card" name="Partner Card">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 one_kanban js_billing_form">
+            <a class='btn btn-link pull-right fa fa-edit edit_address no-decoration' title="Edit this address" />
+            <div class="panel panel-default js_change_shipping">
+                <div class='panel-body'>
+                    <t
+                        t-out="single_partner"
+                        t-options="dict(widget='contact', fields=['name', 'address'], no_marker=True)"
+                    />
+                    <div class="row mb16" style="width: 1px;" />
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="confirm_order" name="Confirm Order">
+        <div class="row">
+            <div class="col-12">
+                <div id="confirm_order">
+                    <h4 class="text-primary section-title">
+                        <i class="fa fa-circle fa-2x" />
+                        <span class="text-white section-id">
+                            <t t-if="extra_info">
+                                5
+                            </t>
+                            <t t-if="not extra_info">
+                                4
+                            </t>
+                        </span>
+                        <span class="section-name">Confirm Order</span>
+                    </h4>
+                    <t t-call="checkout.payment_cart_lines" />
+                    <t t-call="website_sale.total">
+                        <t t-set="redirect" t-value="'/checkout/one_page'" />
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="billing_form" name="Billing Form">
+        <t t-set="countries" t-value="env['res.country'].sudo().search([])" />
+        <form name="/shop/checkout" method="post" class="checkout_autoformat" id="BillingAddressForm">
+            <div t-attf-class="form-group name col-lg-12 col-md-12 col-sm-12 col-12">
+                <label class="control-label" for="name"><span class="text-secondary">*</span> Complete name</label>
+                <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    required="1"
+                    t-att-value="'name' in website_sale_order.partner_id and website_sale_order.partner_id['name'] != 'Public user' and website_sale_order.partner_id['name']"
+                />
+            </div>
+            <div t-attf-class="form-group col-lg-12 col-md-12 col-sm-6 col-12" id="email">
+                <label class="control-label" for="email"><span class="text-secondary">*</span> Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    required="1"
+                    t-att-value="'email' in website_sale_order.partner_id and website_sale_order.partner_id['email']"
+                />
+            </div>
+            <div t-attf-class="form-group col-lg-12 col-md-12 col-sm-6 col-12">
+                <label class="control-label" for="company_name">Company Name</label>
+                <input
+                    type="text"
+                    name="company_name"
+                    class="form-control"
+                    t-att-value="'company_name' in website_sale_order.partner_id and website_sale_order.partner_id['company_name']"
+                />
+            </div>
+            <div t-attf-class="form-group vat col-lg-12 col-md-12 col-sm-6 col-12">
+                <label class="control-label" for="vat">VAT</label>
+                <input
+                    type="text"
+                    name="vat"
+                    class="form-control"
+                    t-att-value="'vat' in website_sale_order.partner_id and website_sale_order.partner_id['vat']"
+                />
+            </div>
+            <div t-attf-class="form-group street col-lg-12 col-md-12 col-sm-12 col-12">
+                <label class="control-label" for="street"><span class="text-secondary">*</span> Street</label>
+                <input
+                    type="text"
+                    name="street"
+                    class="form-control"
+                    required="1"
+                    t-att-value="'street' in website_sale_order.partner_id and website_sale_order.partner_id['street']"
+                />
+            </div>
+            <div t-attf-class="form-group zip col-lg-12 col-md-12 col-sm-6 col-12">
+                <label class="control-label" for="zip"><span class="text-secondary">*</span> Zip Code <small
+                    >required for shipping</small></label>
+                <input
+                    type="text"
+                    name="zip"
+                    class="form-control"
+                    required="1"
+                    t-att-value="'zip' in website_sale_order.partner_id and website_sale_order.partner_id['zip']"
+                />
+            </div>
+            <div t-attf-class="form-group country">
+              <label class="control-label" for="country_id"><span class="text-secondary">*</span> Country</label>
+              <select name="country_id" class="form-control" required="1">
+                  <t t-foreach="countries" t-as="c">
+                      <option
+                            t-att-value="c.id"
+                            t-att-selected="c.id == (website_sale_order.partner_id.country_id and website_sale_order.partner_id.country_id.id or -1)"
+                            t-att-data-country-code="c.code"
+                        ><t t-out="c.name" /></option>
+                  </t>
+              </select>
+            </div>
+            <div
+                t-attf-class="form-group state col-lg-12 col-md-12 col-sm-6 col-12"
+                t-att-style="(not website_sale_order.partner_id.country_id or not website_sale_order.partner_id.country_id.state_ids) and 'display: none'"
+            >
+                <label class="control-label" for="state_id"><span
+                        class="text-secondary"
+                    >*</span> State / Province</label>
+                <select name="state_id" class="form-control" data-init="1" required="1">
+                    <option value="">State / Province...</option>
+                    <t
+                        t-foreach="website_sale_order.partner_id.country_id and website_sale_order.partner_id.country_id.state_ids or []"
+                        t-as="s"
+                    >
+                        <option
+                            t-att-value="s.id"
+                            t-att-selected="s.id == ('state_id' in website_sale_order.partner_id and  website_sale_order.partner_id['state_id'] != '' and int(website_sale_order.partner_id['state_id']))"
+                        >
+                            <t t-out="s.name" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+            <div t-attf-class="form-group city col-lg-12 col-md-12 col-sm-6 col-12">
+                <label class="control-label" for="city"><span class="text-secondary">*</span> City</label>
+                <input
+                    type="text"
+                    name="city"
+                    class="form-control"
+                    required="1"
+                    t-att-value="'city' in website_sale_order.partner_id and website_sale_order.partner_id['city']"
+                />
+            </div>
+            <div t-attf-class="form-group col-lg-12 col-md-12 col-sm-6 col-12" id="phone">
+                <label class="control-label" for="phone"><span class="text-secondary">*</span> Phone or mobile</label>
+                <input
+                    type="tel"
+                    name="phone"
+                    class="form-control"
+                    required="1"
+                    t-att-value="'phone' in website_sale_order.partner_id and website_sale_order.partner_id['phone']"
+                />
+            </div>
+            <div class="clearfix" />
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+            <input type="hidden" name="submitted" value="1" />
+            <input
+                type="hidden"
+                name="partner_id"
+                t-att-value="website_sale_order.partner_id and website_sale_order.partner_id.id or '0'"
+            />
+            <input type="hidden" name="callback" t-att-value="callback" />
+        </form>
+    </template>
+    <template id="billing_address" name="Billing Address">
+        <t t-call="checkout.billing_form" />
+    </template>
+    <template id="edit_billing_form">
+        <div class="panel panel-default panel-edit-billing" t-att-data-partner-id="contact.id">
+            <div class="panel-body">
+                <t t-call="checkout.billing_form" />
+            </div>
+            <div class="panel-footer text-center mb8">
+                <a class="btn btn-primary js_finish_editing_billing text-white">Finish editing</a>
+            </div>
+        </div>
+    </template>
+    <template id="edit_contact_form">
+        <div class="panel panel-default panel-edit" t-att-data-partner-id="contact.id">
+            <div class="panel-body">
+                <t t-call="checkout.shipping_address" />
+            </div>
+            <div class="panel-footer text-center mb8">
+                <a class="btn btn-primary js_finish_editing text-white">Finish editing</a>
+            </div>
+        </div>
+    </template>
+    <template id="shipping_address" name="Shipping Address">
+        <t t-set="countries" t-value="env['res.country'].sudo().search([])" />
+        <form name="/shop/checkout" id="shippingAddressForm" method="post" class="checkout_autoformat">
+            <div t-attf-class="form-group name col-lg-12 col-md-12 col-sm-12 col-12">
+                <label class="control-label" for="name"><span class="text-secondary">*</span> Complete name</label>
+                <input
+                    type="text"
+                    t-att-value="contact and contact.name"
+                    name="name"
+                    class="form-control"
+                    required="1"
+                />
+            </div>
+            <div t-attf-class="form-group street col-lg-12 col-md-12 col-sm-12 col-12">
+                <label class="control-label" for="street"><span class="text-secondary">*</span> Street</label>
+                <input
+                    type="text"
+                    t-att-value="contact and contact.street"
+                    name="street"
+                    class="form-control"
+                    required="1"
+                />
+            </div>
+            <div t-attf-class="form-group zip col-lg-12 col-md-12 col-sm-6 col-12">
+                <label class="control-label" for="zip"><span class="text-secondary">*</span> Zip Code</label>
+                <input
+                    type="text"
+                    t-att-value="contact and contact.zip"
+                    name="zip"
+                    class="form-control"
+                    required="1"
+                />
+            </div>
+            <div t-attf-class="form-group country col-lg-12 col-md-12 col-sm-6 col-12">
+              <label class="control-label" for="country_id"><span class="text-secondary">*</span> Country</label>
+              <select name="country_id" class="form-control" required="1">
+                  <t t-foreach="countries" t-as="c">
+                      <option
+                            t-att-value="c.id"
+                            t-att-selected="c.id == (contact and contact.country_id and contact.country_id.id or -1)"
+                            t-att-data-country-code="c.code"
+                        ><t t-out="c.name" /></option>
+                  </t>
+              </select>
+            </div>
+            <div t-attf-class="form-group state col-lg-12 col-md-12 col-sm-6 col-12" style="display: none">
+                <label class="control-label" for="state_id"><span
+                        class="text-secondary"
+                    >*</span> State / Province</label>
+                <select name="state_id" class="form-control" data-init="1" required="1">
+                    <option value="">State / Province...</option>
+                    <t t-foreach="contact and contact.country_id and contact.country_id.state_ids or []" t-as="s">
+                        <option
+                            t-att-value="s.id"
+                            t-att-selected="1 if s.id == (contact and contact.state_id.id) else 0"
+                        >
+                            <t t-out="s.name" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+            <div t-attf-class="form-group city col-lg-12 col-md-12 col-sm-6 col-12">
+                <label class="control-label" for="city"><span class="text-secondary">*</span> City</label>
+                <input
+                    type="text"
+                    t-att-value="contact and contact.city"
+                    name="city"
+                    class="form-control"
+                    required="1"
+                />
+            </div>
+            <div t-attf-class="form-group col-lg-12 col-md-12 col-sm-6 col-12" id="phone">
+                <label class="control-label" for="phone"><span class="text-secondary">*</span> Phone or mobile</label>
+                <input
+                    type="tel"
+                    t-att-value="contact and contact.phone"
+                    name="phone"
+                    class="form-control"
+                    required="1"
+                />
+            </div>
+            <div class="clearfix" />
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+            <input type="hidden" name="submitted" value="1" />
+            <input type="hidden" name="partner_id" t-att-value="-1 if not contact else contact.id" />
+            <input type="hidden" name="callback" t-att-value="callback" />
+            <input
+                type="hidden"
+                name="email"
+                t-att-value="contact and contact.commercial_partner_id.email or request.website.sale_get_order().partner_id.email"
+            />
+        </form>
+    </template>
+    <template id="payment_method" name="Payment Method">
+        <h4 class="text-primary section-title">
+            <i class="fa fa-circle fa-2x" />
+            <span class="text-white section-id">
+                <t t-if="extra_info">
+                    4
+                </t>
+                <t t-if="not extra_info">
+                    3
+                </t>
+            </span>
+            <span class="section-name">Payment Method</span>
+        </h4>
+        <div class="row">
+            <div
+                id="payment_acqs"
+                class="col-md-12 o_website_sale_rightfit"
+                t-if="(acquirers or tokens) and website_sale_order.amount_total"
+            >
+                <t t-call="payment.checkout">
+                    <t t-set="submit_button_label">Pay Now</t>
+                    <t t-set="partner_id" t-value="partner.id" />
+                </t>
+            </div>
+            <div t-if="not acquirers">
+                <a
+                    class="btn-link"
+                    groups="base.group_system"
+                    t-attf-href="/web#return_label=Website&amp;action=#{payment_action_id}"
+                >
+                        <i class="fa fa-arrow-right" aria-hidden="true" /> Add payment acquirers
+                </a>
+            </div>
+            <div class="js_payment mb64 row" t-if="not website_sale_order.amount_total" id="payment_method">
+                <div class="col-sm-12">
+                    <form target="_self" action="/shop/payment/validate" method="post" class="pull-right">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                        <a class="btn btn-primary a-submit">
+                            <span t-if="order.amount_total &gt; 0">Pay Now <span
+                                    class="fa fa-long-arrow-right"
+                                /></span>
+                            <span t-if="order.amount_total == 0">Confirm Order <span
+                                    class="fa fa-long-arrow-right"
+                                /></span>
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="card-wrapper" class="col-lg-12 col-md-12 col-sm-6 col-12 d-none d-lg-block" style="display: none">
+            <div class="card-wrapper" />
+        </div>
+    </template>
+    <template id="payment_method_button">
+        <div id="payment_method_buttons">
+            <div class="pull-right">
+                <button
+                    id="checkout_payment_button"
+                    class="btn btn-primary btn-lg mb8 mt8 text-white"
+                    disabled="disabled"
+                >
+                    Pay Now
+                </button>
+            </div>
+        </div>
+    </template>
+    <template id="payment_cart_lines">
+        <t t-foreach="website_sale_order.website_order_line" t-as="line">
+            <div class="row mb16 js_product_row">
+                <div class="col-xl-3 col-lg-3 col-3 col-sm-2">
+                    <a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }">
+                        <span
+                            t-field="line.product_id.image_128"
+                            t-options="{'widget': 'image', 'class': 'img-rounded'}"
+                        />
+                    </a>
+                </div>
+                <div class="col-xl-9 col-lg-9 col-9 col-sm-10">
+                    <div class="row">
+                        <strong t-field="line.product_id.with_context(display_default_code=False).display_name" />
+                        <t t-if="line.product_id.attribute_line_ids">
+                            <small class="text-muted d-none d-md-block col-12 p-0">
+                                <span t-field="line.product_id.product_template_variant_value_ids" />
+                            </small>
+                        </t>
+                    </div>
+                    <div class="row" t-att-data-line="line.id">
+                        <div class="col-lg-4 col-6 col-sm-6">
+                            <div class="input-group mt8">
+                                <label class="mr16">Qty</label>
+                                <input
+                                    type="number"
+                                    class="form-control js_quantity"
+                                    t-att-data-line-id="line.id"
+                                    t-att-data-product-id="line.product_id.id"
+                                    t-att-value="int(line.product_uom_qty)"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-6 col-sm-4 offset-sm-2 offset-lg-0 text-right mt8">
+                            <t t-set="taxed_price" t-value="line.product_id.product_tmpl_id.list_price" />
+                            <b class="taxed-price">
+                                <span
+                                    t-field="line.price_reduce_taxexcl"
+                                    t-options="{
+                                    'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id,
+                                    'display_currency': website.currency_id}"
+                                    groups="account.group_show_line_subtotals_tax_excluded"
+                                />
+                                <span
+                                    t-field="line.price_reduce_taxinc"
+                                    t-options="{
+                                    'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id,
+                                    'display_currency': website.currency_id}"
+                                    groups="account.group_show_line_subtotals_tax_included"
+                                />
+                            </b>
+                            <a
+                                href='#'
+                                class='js_delete_product no-decoration'
+                                t-att-data-line-id="line.id"
+                                t-att-data-product-id="line.product_id.id"
+                            ><i class='fa fa-times fa-lg' /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="payment_delivery" inherit_id="website_sale_delivery.payment_delivery" priority="99">
+        <xpath expr="//div[@id='delivery_carrier']" position="attributes">
+            <attribute name="class" />
+        </xpath>
+        <xpath expr="//h3" position="replace">
+            <h4 class="text-primary section-title">
+                <i class="fa fa-circle fa-2x" />
+                <span class="text-white section-id">2</span>
+                <span class="section-name">Delivery Method</span>
+            </h4>
+        </xpath>
+        <xpath expr="//ul" position="after">
+            <div>
+                <label class="text-normal mb0"><small>Do you wish to add indications to your order?</small></label>
+                <textarea
+                    class="form-control text-normal js_instructions"
+                    rows="6"
+                    placeholder="Ie. White house with white doors"
+                />
+            </div>
+        </xpath>
+        <xpath expr="//input" position="attributes">
+            <attribute name="class">mr8</attribute>
+        </xpath>
+    </template>
+    <template id="carriers" name="carriers">
+        <div class="row">
+            <div class="col-12">
+                <div id="delivery_carrier">
+                    <data id="carrier_partner" t-att-data-carrier-partner="partner_id" />
+                    <h4 class="text-primary section-title">
+                        <i class="fa fa-circle fa-2x" />
+                        <span class="text-white section-id">
+                            <t t-if="extra_info">
+                                3
+                            </t>
+                            <t t-if="not extra_info">
+                                2
+                            </t>
+                        </span>
+                        <span class="section-name">Delivery Method</span>
+                    </h4>
+                    <ul class="list-unstyled mb0">
+                        <li t-foreach="deliveries" t-as="delivery">
+                            <label>
+                                <input
+                                    t-att-value="delivery.id"
+                                    type="radio"
+                                    name="delivery_type"
+                                    t-att-checked="order.carrier_id and order.carrier_id.id == delivery.id and 'checked' or False"
+                                    class="mr8"
+                                />
+                                <abbr class="text-normal" t-att-title="delivery.website_description"><span
+                                        t-field="delivery.name"
+                                    /></abbr>
+                                <div t-field="delivery.website_description" class="text-normal description" />
+                            </label>
+                        </li>
+                    </ul>
+                    <div>
+                        <label class="text-normal mb0"><small
+                            >Do you wish to add indications to your order?</small></label>
+                        <textarea
+                            class="form-control text-normal js_instructions"
+                            rows="6"
+                            placeholder="Ie. White house with white doors"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="total" inherit_id="website_sale.total">
+        <xpath expr="//tr[@id='order_total_untaxed']/td[hasclass('text-xl-right')]/span" position="before">
+            <t
+                t-set="total_products"
+                t-value="sum(website_sale_order.order_line.filtered(lambda x: x.is_delivery is not True).mapped('price_total'))"
+            />
+        </xpath>
+        <xpath expr="//tr[@id='order_total_untaxed']/td[hasclass('text-xl-right')]/span" position="attributes">
+            <attribute name="t-field" />
+            <attribute name="t-out">total_products</attribute>
+        </xpath>
+    </template>
+    <template id="cart_delivery" inherit_id="website_sale_delivery.cart_delivery">
+        <xpath expr="//span[@style='white-space: nowrap;']" position="before">
+            <t
+                t-set="total_delivery"
+                t-value="sum(website_sale_order.order_line.filtered('is_delivery').mapped('price_total'))"
+            />
+        </xpath>
+        <xpath expr="//span[@style='white-space: nowrap;']" position="attributes">
+            <attribute name="t-field" />
+            <attribute name="t-out">total_delivery</attribute>
+        </xpath>
+    </template>
+    <template id="address_kanban" inherit_id="website_sale.address_kanban" priority="99">
+        <xpath expr="//div//div[hasclass('card-footer')]//span//a[hasclass('btn-primary')]" position="replace">
+            <button class="btn btn-block btn-primary" disabled="disabled">
+                <i class='fa fa-check' /> Ship to this address
+            </button>
+        </xpath>
+    </template>
+    <template id="s_extra_info">
+        <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+            <div class="container mb24">
+                <form
+                    id="extraInfoForm"
+                    action="/website/form/"
+                    method="post"
+                    enctype="multipart/form-data"
+                    class="o_mark_required s_website_form_no_recaptcha"
+                    data-mark="*"
+                    data-force_action="shop.sale.order"
+                    data-model_name="sale.order"
+                    data-success-mode="nothing"
+                    data-success-page="/shop/payment"
+                    hide-change-model="true"
+                >
+                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                        <div
+                            data-visibility-condition=""
+                            data-visibility-between=""
+                            class="form-group s_website_form_field col-12 s_website_form_custom"
+                            data-type="char"
+                            data-name="Field"
+                        >
+                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                <label
+                                    class="col-form-label col-sm-auto s_website_form_label"
+                                    style="width: 200px"
+                                    for="sale1"
+                                >
+                                    <span class="s_website_form_label_content">Your Reference</span>
+                                </label>
+                                <div class="col-12">
+                                    <input
+                                        id="sale1"
+                                        type="text"
+                                        class="form-control s_website_form_input"
+                                        name="client_order_ref"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            data-visibility-condition=""
+                            data-visibility-between=""
+                            class="form-group s_website_form_field col-12 s_website_form_custom"
+                            data-type="text"
+                            data-name="Field"
+                        >
+                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                <label
+                                    class="col-form-label col-sm-auto s_website_form_label"
+                                    style="width: 200px"
+                                    for="sale2"
+                                >
+                                    <span class="s_website_form_label_content">Give us your feedback</span>
+                                </label>
+                                <div class="col-12">
+                                    <textarea
+                                        id="sale2"
+                                        class="form-control s_website_form_input"
+                                        name="Give us your feedback"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            data-visibility-condition=""
+                            data-visibility-between=""
+                            class="form-group s_website_form_field col-12 s_website_form_custom"
+                            data-type="binary"
+                            data-name="Field"
+                        >
+                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                <label
+                                    class="col-form-label col-sm-auto s_website_form_label"
+                                    style="width: 200px"
+                                    for="sale3"
+                                >
+                                    <span class="s_website_form_label_content">Upload a document</span>
+                                </label>
+                                <div class="col-12">
+                                    <input
+                                        id="sale3"
+                                        type="file"
+                                        class="form-control-file s_website_form_input"
+                                        name="a_document"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-12 s_website_form_submit s_website_form_no_submit_options d-none">
+                            <div style="width: 200px;" class="s_website_form_label" />
+                            <a
+                                role="button"
+                                class="btn btn-primary float-right s_website_form_send"
+                                href="/shop/confirm_order"
+                            >Next <span class="fa fa-chevron-right" /></a>
+                            <span id="s_website_form_result" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </template>
+    <!-- Show the payment term conditions -->
+    <template
+        id="payment_sale_note_terms"
+        inherit_id="checkout.one_page"
+        name="Accept Terms &amp; Conditions"
+        customize_show="True"
+        active="False"
+    >
+        <xpath expr="//div//t[@t-call='checkout.payment_method_button']" position="before">
+            <div
+                id="checkbox_js"
+                class="custom-control custom-checkbox float-right mt-2 oe_accept_cgv_button col-md-12"
+            >
+                <input type="checkbox" id="checkbox_cgv" class="custom-control-input" />
+                <label for="checkbox_cgv" class="custom-control-label">
+                    I agree to the <a target="_BLANK" href="/shop/terms">terms &amp; conditions</a>
+                </label>
+            </div>
+        </xpath>
+    </template>
+    <!-- Remove old terms template-->
+    <record id="website_sale.payment_sale_note" model="ir.ui.view">
+        <field name="customize_show" eval="False" />
+    </record>
+</odoo>

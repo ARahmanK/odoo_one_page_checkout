@@ -1,0 +1,312 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * checkout
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-21 01:26+0000\n"
+"PO-Revision-Date: 2017-10-21 01:26+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment_method
+msgid "<i class=\"fa fa-arrow-right\" aria-hidden=\"true\"/> Add payment acquirers"
+msgstr ""
+"<i class=\"fa fa-arrow-right\" aria-hidden=\"true\"/> Añadir adquirentes de "
+"pago"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.address_kanban
+msgid "<i class=\"fa fa-check\"/> Ship to this address"
+msgstr "<i class=\"fa fa-check\"/> Enviar a esta dirección"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.one_page
+msgid ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"                                    <span class=\"text-white section-id\">2</span>\n"
+"                                    <span class=\"section-name\">Extra info</span>"
+msgstr ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"                                    <span class=\"text-white section-id\">2</span>\n"
+"                                    <span class=\"section-name\">Info extra</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment
+#: model_terms:ir.ui.view,arch_db:checkout.one_page
+msgid ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"                                <span class=\"text-white section-id\">1</span>\n"
+"                                <span class=\"section-name\">Billing Address</span>"
+msgstr ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"                                <span class=\"text-white section-id\">1</span>\n"
+"                                <span class=\"section-name\">Dirección de facturación</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.carriers
+msgid ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"                        <span class=\"text-white section-id\">2</span>\n"
+"                        <span class=\"section-name\">Delivery Method</span>"
+msgstr ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"                        <span class=\"text-white section-id\">2</span>\n"
+"                        <span class=\"section-name\">Método de Envío</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.confirm_order
+msgid ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"                        <span class=\"text-white section-id\">4</span>\n"
+"                        <span class=\"section-name\">Confirm Order</span>"
+msgstr ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"                        <span class=\"text-white section-id\">4</span>\n"
+"                        <span class=\"section-name\">Confirmar Orden</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment_delivery
+msgid ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"                <span class=\"text-white section-id\">2</span>\n"
+"                <span class=\"section-name\">Delivery Method</span>"
+msgstr ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"                <span class=\"text-white section-id\">2</span>\n"
+"                <span class=\"section-name\">Método de entrega</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment_method
+msgid ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"            <span class=\"text-white section-id\">3</span>\n"
+"            <span class=\"section-name\">Payment Method</span>"
+msgstr ""
+"<i class=\"fa fa-circle fa-2x\"/>\n"
+"            <span class=\"text-white section-id\">3</span>\n"
+"            <span class=\"section-name\">Método de Pago</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.one_page
+msgid ""
+"<i class=\"fa fa-external-link mr-1\"/>\n"
+"                                    <span>Open the extra Info page for this order</span>"
+msgstr ""
+"<i class=\"fa fa-external-link mr-1\"/>\n"
+"                                    <span>Abra la página de información adicional para este pedido</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.one_page
+msgid "<i class=\"fa fa-long-arrow-left\"/> CONTINUE SHOPPING"
+msgstr "<i class=\"fa fa-long-arrow-left\"/> CONTINUAR COMPRANDO"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.shipping_cards
+msgid "<i class=\"fa fa-plus text-white mr4\"/> Add an address"
+msgstr "<i class=\"fa fa-plus text-white mr4\"/> Agregar una dirección"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.carriers
+#: model_terms:ir.ui.view,arch_db:checkout.payment_delivery
+msgid "<small>Do you wish to add indications to your order?</small>"
+msgstr "<small>¿Desea añadir indicaciones a su orden?</small>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment
+#: model_terms:ir.ui.view,arch_db:checkout.one_page
+msgid "<span class=\"section-name\">Add Shipping Address</span>"
+msgstr "<span class=\"section-name\">Agregar Dirección de Envío</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.confirm_order
+msgid "<span class=\"section-name\">Confirm Order</span>"
+msgstr "<span class=\"section-name\">Confirmar orden</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.carriers
+msgid "<span class=\"section-name\">Delivery Method</span>"
+msgstr "<span class=\"section-name\">Método de entrega</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment_method
+msgid "<span class=\"section-name\">Payment Method</span>"
+msgstr "<span class=\"section-name\">Método de pago</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment
+#: model_terms:ir.ui.view,arch_db:checkout.one_page
+msgid "<span class=\"section-name\">Shipping Addresses</span>"
+msgstr "<span class=\"section-name\">Dirección de Envío</span>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.billing_form
+#: model_terms:ir.ui.view,arch_db:checkout.shipping_address
+msgid "<span class=\"text-secondary\">*</span> City"
+msgstr "<span class=\"text-secondary\">*</span> Ciudad"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.billing_form
+#: model_terms:ir.ui.view,arch_db:checkout.shipping_address
+msgid "<span class=\"text-secondary\">*</span> Complete name"
+msgstr "<span class=\"text-secondary\">*</span> Nombre Completo"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.billing_form
+#: model_terms:ir.ui.view,arch_db:checkout.shipping_address
+msgid "<span class=\"text-secondary\">*</span> Country"
+msgstr "<span class=\"text-secondary\">*</span> País"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.billing_form
+msgid "<span class=\"text-secondary\">*</span> Email"
+msgstr "<span class=\"text-secondary\">*</span> Correo Electrónico"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.billing_form
+#: model_terms:ir.ui.view,arch_db:checkout.shipping_address
+msgid "<span class=\"text-secondary\">*</span> Phone or mobile"
+msgstr "<span class=\"text-secondary\">*</span> Teléfono o móvil"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.billing_form
+#: model_terms:ir.ui.view,arch_db:checkout.shipping_address
+msgid "<span class=\"text-secondary\">*</span> State / Province"
+msgstr "<span class=\"text-secondary\">*</span> Estado / Provincia"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.billing_form
+#: model_terms:ir.ui.view,arch_db:checkout.shipping_address
+msgid "<span class=\"text-secondary\">*</span> Street"
+msgstr "<span class=\"text-secondary\">*</span> Calle"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.shipping_address
+msgid "<span class=\"text-secondary\">*</span> Zip Code"
+msgstr "<span class=\"text-secondary\">*</span> Código Postal"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.billing_form
+msgid ""
+"<span class=\"text-secondary\">*</span> Zip Code <small>required for "
+"shipping</small>"
+msgstr ""
+"<span class=\"text-secondary\">*</span> Código Postal <small>requerido para "
+"el envío</small>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.add_shipping_address
+msgid "Add"
+msgstr "Añadir"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.add_shipping_address
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.billing_form
+msgid "Company Name"
+msgstr "Nombre de la Compañia"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment_method
+msgid "Confirm Order <span class=\"fa fa-long-arrow-right\"/>"
+msgstr "Confirmar pedido <span class=\"fa fa-long-arrow-right\"/>"
+
+#. module: checkout
+#: model:ir.model,name:checkout.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.partner_card
+msgid "Edit this address"
+msgstr "Editar esta dirección"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment
+#: model_terms:ir.ui.view,arch_db:checkout.one_page
+msgid "Express Checkout"
+msgstr "Checkout Express"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment
+msgid "Express delivery"
+msgstr "Envío Express"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.edit_billing_form
+#: model_terms:ir.ui.view,arch_db:checkout.edit_contact_form
+msgid "Finish editing"
+msgstr "Finalizar edición"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.confirm_order
+msgid "Get promos and disccounts via email"
+msgstr "Obtener promociones y descuentos vía correo electrónico"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment_sale_note_terms
+msgid "I agree to the"
+msgstr "Estoy de acuerdo con los"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.carriers
+#: model_terms:ir.ui.view,arch_db:checkout.payment_delivery
+msgid "Ie. White house with white doors"
+msgstr "P.ej. La casa blanca con puertas blancas"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment_method
+#: model_terms:ir.ui.view,arch_db:checkout.payment_method_button
+msgid "Pay Now"
+msgstr "Pagar ahora"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment_method
+msgid "Pay Now <span class=\"fa fa-long-arrow-right\"/>"
+msgstr "Pagar ahora <span class=\"fa fa-long-arrow-right\"/>"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment
+msgid "Pay easily and secure"
+msgstr "Pague fácil y seguro"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment_cart_lines
+msgid "Qty"
+msgstr "Cant."
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.one_page
+msgid "Send to same address"
+msgstr "Enviar a la misma dirección"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.billing_form
+#: model_terms:ir.ui.view,arch_db:checkout.shipping_address
+msgid "State / Province..."
+msgstr "Estado / Provincia..."
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment
+msgid "Tienda checkout"
+msgstr "Checkout"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.billing_form
+msgid "VAT"
+msgstr "NIT"
+
+#. module: checkout
+#: model_terms:ir.ui.view,arch_db:checkout.payment_sale_note_terms
+msgid "terms &amp; conditions"
+msgstr "términos &amp; condiciones"

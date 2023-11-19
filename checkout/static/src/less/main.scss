@@ -1,0 +1,182 @@
+//VARIABLES
+//colors
+$gray-300: #e6e6e6;
+$gray-500: #c3c3c3;
+$gray-700: #999999;
+$gray-amw: #fafafa;
+$carbon: #555555;
+$error: #a94442;
+
+//Bootstrap font ratios
+$font-size-base: 0.9375rem !default;
+//non Bootstrap font ratios
+$font-size-medium:         floor(($font-size-base * 1.2)); // ~16px
+
+.has-error{
+    input, label, span {
+        color: $error !important;
+    }
+    input{
+        border-color: $error !important;
+    }
+}
+
+// titles of sections of onepage checkout
+.express-checkout-section {
+    color: $carbon;
+    input, select {
+        border: solid 1px $gray-700;
+        border-radius: 0px;
+        color: $carbon;
+    }
+    .address-column {
+        font-weight: 300;
+        font-size: $font-size-medium;
+    }
+    .section-title {
+        .section-id {
+            position: relative;
+            top: -.39em;
+            left: -1.39em;
+        }
+        .section-name {
+            position: relative;
+            top: -6px;
+            left: -8px;
+            font-size: 22px;
+        }
+    }
+    .separator-vertical {
+        min-height: 950px;
+        div {
+            width: 50%;
+            height: 100%;
+            border-right: solid 1px #c3c3c3;
+        }
+    }
+    #cart_total {
+        border: solid 1px $gray-500;
+        background-color: $gray-amw;
+        padding-right: 16px;
+        .separator {
+            border-top: solid 1px $gray-500;
+        }
+        .order-total-name {
+            padding-left: 25px;
+        }
+        .order-total-qty {
+            padding-right: 55px;
+            span {
+                white-space: nowrap;
+            }
+        }
+    }
+    .coupon-input {
+        border-radius: 100px !important;
+    }
+    .coupon-submit {
+        position: relative;
+        z-index: 5;
+        left: -40px;
+        font-size: 14px;
+    }
+    .js_delete_product {
+        .fa-times {
+            position: relative;
+            color: $gray-500;
+            line-height: 0;
+        }
+    }
+    .text-normal {
+        font-weight: 300;
+        font-size: $font-size-medium;
+        line-height: 1.7;
+
+    }
+
+    .text-normal.description {
+        font-size: 14px;;
+
+    }
+    .js_quantity {
+        width: 47px;
+        height: 25px;
+        background-color: $gray-amw;
+        padding: 0px 3px;
+    }
+    .taxed-price {
+        font-size: 18px;
+        span {
+            white-space: nowrap;
+        }
+    }
+    .card-logo {
+        display: inline-block;
+    }
+    textarea {
+        max-height: 50px;
+    }
+    .jp-card {
+        top: -32px;
+        left: -40px;
+    }
+    .js_payment {
+        #card-form {
+            .col-lg-12 {
+                padding-right: 0px;
+                padding-left: 0px;
+            }
+        }
+    }
+    .btn-xwide {
+        min-width: 300px;
+    }
+    #BillingAddressForm, #shippingAddressForm {
+        div.form-group {
+            padding-left: 0px;
+            padding-right: 0px;
+            float: left !important;
+            &.pl15 {
+                padding-left: 15px;
+            }
+            &.pr15 {
+                padding-right: 15px;
+            }
+        }
+    }
+    .js_product_row {
+        .input-group {
+            display: inline-flex;
+            label {
+                font-weight: 300;
+            }
+        }
+    }
+    .one_kanban {
+        z-index:10;
+    }
+
+    abbr[title], abbr[data-original-title] {
+        text-decoration: none !important;
+        border-bottom: none;
+    }
+}
+.checkout-header-tiles {
+    p {
+        line-height: 10px;
+        font-size: 10px;
+        color: $gray-700;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    #payment_method_buttons .pull-right {
+        float: none !important;
+        text-align: center;
+    }
+}
+
+.credomatic-card-form{
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+}
